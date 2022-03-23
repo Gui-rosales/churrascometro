@@ -3,60 +3,62 @@
 // refrigerante/ agua - 1000ml por pessoa + 6 horas 1500ml
 
 // crianças valem por 0.5
+var verifier = false;
 
-function meatCalculation(adults, children, hours){
+function meatCalculation(adults, children, hours) {
     let meatQuantity = 0;
 
-    if(hours<=6){
-        if(children>0){
-            meatQuantity = (400 * adults) * (children/2);
-        }else if(children <= 0){
+    if (hours <= 6) {
+        if (children > 0) {
+            meatQuantity = (400 * adults) * (children / 2);
+        } else if (children <= 0) {
             meatQuantity = 400 * adults;
         }
-    } else if(hours > 6){
-        if(children > 0){
-            meatQuantity = (650 * adults) * (children/2);
-        }else if(children<=0){
+    } else if (hours > 6) {
+        if (children > 0) {
+            meatQuantity = (650 * adults) * (children / 2);
+        } else if (children <= 0) {
             meatQuantity = 650 * adults;
         }
     }
-    return meatQuantity/1000;
+    return meatQuantity / 1000;
 }
 
-function beerCalculation(adults, children, hours){
+function beerCalculation(adults, children, hours) {
     let beerQuantity = 0;
 
-    if(hours <= 6){
+    if (hours <= 6) {
         beerQuantity = 1200 * adults;
-    }else if(hours > 6){
+    } else if (hours > 6) {
         beerQuantity = 2000 * adults
     }
-    return beerQuantity/1000;
+    return beerQuantity / 1000;
 }
 
-function drinksCalculation(adults, children, hours){
+function drinksCalculation(adults, children, hours) {
     let drinksQuantity = 0;
 
-    if(hours <= 6){
-        if(children > 0){
-            drinksQuantity = (1000 * adults) * (children/2);
-        }else if(children <= 0){
+    if (hours <= 6) {
+        if (children > 0) {
+            drinksQuantity = (1000 * adults) * (children / 2);
+        } else if (children <= 0) {
             drinksQuantity = 1000 * adults;
         }
-    }else if (hours > 6){
-        if(children > 0){
-            drinksQuantity = (1500 * adults) * (children/2);
-        }else if(children <= 0){
+    } else if (hours > 6) {
+        if (children > 0) {
+            drinksQuantity = (1500 * adults) * (children / 2);
+        } else if (children <= 0) {
             drinksQuantity = 1500 * adults;
-        } 
+        }
     }
-    return drinksQuantity/1000;
+    return drinksQuantity / 1000;
 }
 
-function displayTheValues(meat, beer, drinks){
+function displayTheValues(meat, beer, drinks) {
+    verifier = true;
     let informations = document.getElementById("informations").style.display = "flex";
     let ul = document.getElementById("ingredients_list");
-    
+
     let liMeat = document.createElement("li");
     liMeat.appendChild(document.createTextNode("🥩 - " + meat + " Kg de carne"));
     ul.appendChild(liMeat);
@@ -68,7 +70,18 @@ function displayTheValues(meat, beer, drinks){
     let liDrinks = document.createElement("li");
     liDrinks.appendChild(document.createTextNode("🥤 - " + drinks + " litros de bebidas"));
     ul.appendChild(liDrinks);
-    
+
+    let clearInformationsBtn = document.getElementById("clearInformations");
+    clearInformationsBtn.style.display = "flex";
+    clearInformationsBtn.addEventListener("click", function clearInformations() {
+        ul.removeChild(liMeat);
+        ul.removeChild(liBeer);
+        ul.removeChild(liDrinks);
+
+        let secondInstanceOfinformations = document.getElementById("informations").style.display = "none";
+        clearInformationsBtn.style.display = "none";
+        verifier = false;
+    });
 }
 
 let calcButton = document.getElementById("to_calculate");
@@ -76,10 +89,17 @@ calcButton.addEventListener('click', () => {
     let adultNumber = document.getElementById("adultsNumber").value;
     let childrenNumber = document.getElementById("childrenNumber").value;
     let duration = document.getElementById("duration").value
-    
-    displayTheValues(
-        meatCalculation(adultNumber, childrenNumber, duration),
-        beerCalculation(adultNumber, childrenNumber, duration),
-        drinksCalculation(adultNumber, childrenNumber, duration)
-    );
+    if (adultNumber == "" || childrenNumber == "" || duration == "") {
+        alert("Preencha o(s) valor(es) que falta(m)");
+    } else if (verifier != false) {
+        alert("Limpe as informações primeiro");
+
+    } else {
+        displayTheValues(
+            meatCalculation(adultNumber, childrenNumber, duration),
+            beerCalculation(adultNumber, childrenNumber, duration),
+            drinksCalculation(adultNumber, childrenNumber, duration)
+        );
+    }
+
 });
