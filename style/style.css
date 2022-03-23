@@ -9,6 +9,7 @@ body{
 }
 body{
     background-image: url(./assets/barbecue_background1.jpg);
+     overflow: hidden;  /*to hide the scrollbar */
 }
 
 header, h1{
@@ -112,6 +113,14 @@ footer{
     cursor: pointer;
     background-color: whitesmoke;
     font-weight: bold;
+}
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+input[type= 'number']::-webkit-outer-spin-button,
+input[type= 'number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 @media (min-width: 1205px){
